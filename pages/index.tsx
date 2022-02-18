@@ -2,26 +2,28 @@ import type { NextPage } from "next";
 
 const Home: NextPage = () => {
   return (
-    <div className="grid gap-10 px-10 py-20 bg-slate-400">
-      <div className="w-1/3 p-6 mx-auto bg-white shadow-xl rounded-2xl">
+    <div className="grid min-h-screen gap-10 px-10 py-20 bg-slate-400 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="flex flex-col justify-between p-6 bg-white shadow-xl rounded-2xl dark:bg-black dark:text-white">
         <span className="text-3xl font-semibold">Select Item</span>
-        <div className="flex justify-between my-2">
-          <span className="text-gray-500">Grey Chair</span>
-          <span className="font-semibold">$19</span>
-        </div>
-        <div className="flex justify-between my-2">
-          <span className="text-gray-500">Grey Chair</span>
-          <span className="font-semibold">$19</span>
+        <div>
+          <div className="flex justify-between my-2">
+            <span className="text-gray-500 dark:text-gray-400">Grey Chair</span>
+            <span className="font-semibold">$19</span>
+          </div>
+          <div className="flex justify-between my-2">
+            <span className="text-gray-500 dark:text-gray-400">Grey Chair</span>
+            <span className="font-semibold">$19</span>
+          </div>
         </div>
         <div className="flex justify-between pt-2 mt-2 border-t-2 border-dashed">
           <span>Total</span>
           <span className="font-semibold">$38</span>
         </div>
-        <div className="w-1/2 p-3 mx-auto mt-5 text-center text-white bg-blue-500 rounded-xl">
+        <div className="w-1/2 p-3 mx-auto mt-5 text-center text-white bg-blue-500 rounded-xl dark:bg-black dark:border dark:border-white">
           Checkout
         </div>
       </div>
-      <div className="w-1/3 mx-auto overflow-hidden bg-white shadow-xl rounded-2xl">
+      <div className="overflow-hidden bg-white shadow-xl rounded-2xl">
         <div className="p-6 bg-blue-500 pb-14">
           <span className="text-2xl text-white">Profile</span>
         </div>
@@ -43,8 +45,8 @@ const Home: NextPage = () => {
           </div>
         </div>
       </div>
-      <div className="w-1/3 p-6 mx-auto bg-white shadow-xl rounded-2xl"></div>
-      <div className="w-1/3 p-6 mx-auto bg-white shadow-xl rounded-2xl"></div>
+      <div className="p-6 bg-white shadow-xl rounded-2xl"></div>
+      <div className="p-6 bg-white shadow-xl rounded-2xl"></div>
     </div>
   );
 };
