@@ -1,8 +1,7 @@
 import { useState } from "react";
-
-function cls(...classNames: string[]) {
-  return classNames.join(" ");
-}
+import { cls, InputKind } from "../libs/utils";
+import Button from "../components/button";
+import Input from "../components/input";
 
 export default function Enter() {
   const [method, setMethod] = useState<"email" | "phone">("email");
@@ -40,37 +39,16 @@ export default function Enter() {
           </div>
         </div>
         <form className="flex flex-col mt-8">
-          <label htmlFor="input" className="text-gray-400 ">
-            {method === "email" ? "Email address" : null}
-            {method === "phone" ? "Phone number" : null}
-          </label>
-          <div className="mt-2">
-            {method === "email" ? (
-              <input
-                id="input"
-                className="w-full border-gray-400 rounded-lg shadow-sm appearance-none focus:border-orange-400 focus:ring-orange-400"
-                type="email"
-                required
-              />
-            ) : null}
-            {method === "phone" ? (
-              <div className="flex">
-                <span className="flex items-center justify-center px-2 text-gray-500 border border-r-0 border-gray-400 rounded-l-lg select-none bg-gray-50">
-                  +82
-                </span>
-                <input
-                  id="input"
-                  className="w-full border-gray-400 rounded-r-lg shadow-sm appearance-none focus:border-orange-400 focus:ring-orange-400"
-                  type="number"
-                  required
-                />
-              </div>
-            ) : null}
-          </div>
-          <button className="px-4 py-2 mt-4 bg-orange-400 hover:bg-orange-500 rounded-xl focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 focus:outline-none">
-            {method === "email" ? "Get login link" : null}
-            {method === "phone" ? "Get one-time password" : null}
-          </button>
+          {method === "email" ? (
+            <Input label="Email address" name="email" kind={InputKind.email} />
+          ) : (
+            <Input label="Phone number" name="phone" kind={InputKind.phone} />
+          )}
+          <Button
+            text={
+              method === "email" ? "Get login link" : "Get one-time password"
+            }
+          />
         </form>
         <div className="mt-6">
           <div className="">
