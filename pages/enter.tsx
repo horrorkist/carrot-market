@@ -1,12 +1,31 @@
 import { useState } from "react";
-import { cls, InputKind } from "../libs/utils";
-import Button from "../components/button";
-import Input from "../components/input";
+import { cls, InputKind } from "@libs/client/utils";
+import Button from "@components/button";
+import Input from "@components/input";
+import { useForm } from "react-hook-form";
+import useMutation from "@libs/client/useMutation";
+
+interface EnterForm {
+  email?: string;
+  phone?: number;
+}
 
 export default function Enter() {
+  const [enter, { loading, data, errors }] = useMutation("/api/users/enter");
+  const { register, reset, handleSubmit } = useForm();
   const [method, setMethod] = useState<"email" | "phone">("email");
-  const onEmailClick = () => setMethod("email");
-  const onPhoneClick = () => setMethod("phone");
+  const onEmailClick = () => {
+    reset();
+    setMethod("email");
+  };
+  const onPhoneClick = () => {
+    reset();
+    setMethod("phone");
+  };
+  const onValid = (validForm: EnterForm) => {
+    enter(validForm);
+  };
+  console.log(loading, data, errors);
   return (
     <div className="px-4 mt-12">
       <h3 className="text-3xl font-bold text-center">Enter to Carrot</h3>
@@ -38,11 +57,21 @@ export default function Enter() {
             </button>
           </div>
         </div>
-        <form className="flex flex-col mt-8">
+        <form onSubmit={handleSubmit(onValid)} className="flex flex-col mt-8">
           {method === "email" ? (
-            <Input label="Email address" name="email" kind={InputKind.email} />
+            <Input
+              register={register("email")}
+              label="Email address"
+              name="email"
+              kind={InputKind.email}
+            />
           ) : (
-            <Input label="Phone number" name="phone" kind={InputKind.phone} />
+            <Input
+              register={register("phone")}
+              label="Phone number"
+              name="phone"
+              kind={InputKind.phone}
+            />
           )}
           <Button
             text={

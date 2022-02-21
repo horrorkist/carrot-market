@@ -1,4 +1,4 @@
-import { InputKind } from "../libs/utils";
+import { InputKind } from "@libs/client/utils";
 
 interface InputProps {
   label: string;
@@ -11,6 +11,7 @@ export default function Input({
   label,
   name,
   kind = InputKind.text,
+  register,
   ...rest
 }: InputProps) {
   return (
@@ -21,6 +22,7 @@ export default function Input({
       <div>
         {kind === InputKind.email ? (
           <input
+            {...register}
             {...rest}
             id="input"
             className="w-full border-gray-400 rounded-lg shadow-sm appearance-none focus:border-orange-400 focus:ring-orange-400"
@@ -34,6 +36,8 @@ export default function Input({
               +82
             </span>
             <input
+              {...register}
+              {...rest}
               id={name}
               className="w-full border-gray-400 rounded-r-lg shadow-sm appearance-none focus:border-orange-400 focus:ring-orange-400"
               type="number"
@@ -43,6 +47,8 @@ export default function Input({
         ) : null}
         {kind === InputKind.text ? (
           <input
+            {...register}
+            {...rest}
             className="w-full border-gray-400 rounded-lg shadow-sm appearance-none focus:border-orange-400 focus:ring-orange-400"
             id="name"
             type="text"
@@ -55,6 +61,8 @@ export default function Input({
               <span className="text-sm text-gray-500">$</span>
             </div>
             <input
+              {...register}
+              {...rest}
               className="w-full border-gray-400 rounded-lg shadow-sm appearance-none pl-7 focus:border-orange-400 focus:ring-orange-400"
               id="price"
               type="text"
