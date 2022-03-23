@@ -99,11 +99,11 @@ export default function Layout({
               <span className="text-sm font-semibold">동네생활</span>
             </a>
           </Link>
-          <Link href="/items/chats">
+          <Link href="/products/chats">
             <a
               className={cls(
                 "flex flex-col items-center justify-center space-y-1",
-                pathname === "/items/chats" ? "text-orange-400" : ""
+                pathname === "/products/chats" ? "text-orange-400" : ""
               )}
             >
               <svg

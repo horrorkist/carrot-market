@@ -1,17 +1,19 @@
 import { useState } from "react";
 
-interface UseMutationState {
+interface UseMutationState<T> {
   loading: boolean;
   errors?: object;
-  data?: object;
+  data?: T;
 }
-type UseMutationResult = [(data: any) => void, UseMutationState];
+type UseMutationResult<T> = [(data: any) => void, UseMutationState<T>];
 
-export default function useMutation(url: string): UseMutationResult {
+export default function useMutation<T = any>(
+  url: string
+): UseMutationResult<T> {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<undefined | any>(undefined);
   const [data, setData] = useState<undefined | any>(undefined);
-  async function mutate(data: string) {
+  async function mutate(data: any) {
     setLoading(true);
     try {
       const response = await (
@@ -25,6 +27,7 @@ export default function useMutation(url: string): UseMutationResult {
       ).json();
       setData(response);
     } catch (e) {
+      console.error(e);
       setErrors(e);
     }
     setLoading(false);

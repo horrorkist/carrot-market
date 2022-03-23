@@ -10,7 +10,7 @@ interface ItemProps {
 
 export default function Item({ title, price, comments, id, heart }: ItemProps) {
   return (
-    <Link href={`/items/${id}`}>
+    <Link href={`/products/${id}`}>
       <a
         key={id}
         className="flex items-center justify-between px-4 py-4 cursor-pointer"

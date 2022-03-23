@@ -11,12 +11,16 @@
   },
   "dependencies": {
     "@prisma/client": "^3.9.2",
+    "@sendgrid/mail": "^7.6.1",
     "@tailwindcss/forms": "^0.4.0",
     "gh-pages": "^3.2.3",
+    "iron-session": "^6.0.5",
     "next": "^12.0.10",
     "react": "^18.0.0-rc.0",
     "react-dom": "^18.0.0-rc.0",
-    "react-hook-form": "^7.27.1"
+    "react-hook-form": "^7.27.1",
+    "swr": "^1.2.2",
+    "twilio": "^3.74.0"
   },
   "devDependencies": {
     "@types/node": "17.0.15",

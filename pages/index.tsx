@@ -2,9 +2,12 @@ import type { NextPage } from "next";
 import Item from "@components/item";
 import Layout from "@components/layout";
 import FloatingButton from "@components/floatingButton";
+import useUser from "../libs/client/useUser";
 
 const Home: NextPage = () => {
-  return (
+  const { user, isLoading } = useUser();
+  console.log(user);
+  return user ? (
     <Layout title="홈" hasTabBar={true}>
       <div className="flex flex-col pb-20 divide-y-2">
         {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((_, i) => (
@@ -17,7 +20,7 @@ const Home: NextPage = () => {
             comments={1}
           />
         ))}
-        <FloatingButton href="/items/upload">
+        <FloatingButton href="/products/upload">
           <svg
             className="w-6 h-6"
             xmlns="http://www.w3.org/2000/svg"
@@ -36,7 +39,7 @@ const Home: NextPage = () => {
         </FloatingButton>
       </div>
     </Layout>
-  );
+  ) : null;
 };
 
 export default Home;
