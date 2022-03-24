@@ -4,40 +4,41 @@ import client from "@libs/server/client";
 import { withApiSession } from "@libs/server/withApiSession";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { id } = req.query;
-  const product = await client.product.findUnique({
+  const {
+    query: { id },
+    session: { user },
+  } = req;
+  const alreadyExists = await client.fav.findFirst({
     where: {
-      id: +id.toString(),
-    },
-    include: {
-      user: {
-        select: {
-          id: true,
-          name: true,
-          avatar: true,
-        },
-      },
+      productId: +id.toString(),
+      userId: user?.id,
     },
   });
-  const terms = product?.name.split(" ").map((word) => ({
-    name: {
-      contains: word,
-    },
-  }));
-  const relatedProducts = await client.product.findMany({
-    where: {
-      OR: terms,
-      AND: {
-        id: {
-          not: product?.id,
+
+  if (alreadyExists) {
+    await client.fav.delete({
+      where: {
+        id: alreadyExists.id,
+      },
+    });
+  } else {
+    await client.fav.create({
+      data: {
+        user: {
+          connect: {
+            id: user?.id,
+          },
+        },
+        product: {
+          connect: {
+            id: +id.toString(),
+          },
         },
       },
-    },
-  });
+    });
+  }
   return res.json({
     ok: true,
-    product,
-    relatedProducts,
   });
 }
 export default withApiSession(withHandler({ methods: ["POST"], handler }));

@@ -22,7 +22,7 @@ const ItemDetail: NextPage = () => {
   );
   return (
     <Layout canGoBack>
-      {data ? (
+      {data?.product ? (
         <div className="px-4">
           <div>
             <div className="rounded-md h-96 bg-slate-400" />
