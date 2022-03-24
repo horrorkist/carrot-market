@@ -17,9 +17,8 @@ export default function Item({ title, price, comments, id, heart }: ItemProps) {
       >
         <div className="flex space-x-4">
           <div className="w-20 h-20 bg-gray-600 rounded-md" />
-          <div className="flex flex-col py-1">
+          <div className="flex flex-col justify-between py-1">
             <h3 className="text-sm font-medium text-gray-900">{title}</h3>
-            <span className="text-xs text-gray-500">Black</span>
             <span className="mt-2 font-semibold">${price}</span>
           </div>
         </div>

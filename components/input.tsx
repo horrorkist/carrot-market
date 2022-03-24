@@ -1,9 +1,11 @@
 import { InputKind } from "@libs/client/utils";
+import { UseFormRegisterReturn } from "react-hook-form";
 
 interface InputProps {
   label: string;
   name: string;
   kind?: InputKind;
+  register: UseFormRegisterReturn;
   [key: string]: any;
 }
 
