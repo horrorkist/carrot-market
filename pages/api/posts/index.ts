@@ -6,7 +6,7 @@ import { withApiSession } from "@libs/server/withApiSession";
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
     const {
-      body: { question },
+      body: { question, latitude, longitude },
       session: { user },
     } = req;
 
@@ -18,6 +18,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           },
         },
         question,
+        latitude,
+        longitude,
       },
     });
 
@@ -27,7 +29,22 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     });
   }
   if (req.method === "GET") {
+    const {
+      query: { latitude, longitude },
+    } = req;
+    const parsedLatitude = parseFloat(latitude.toString());
+    const parsedLongitude = parseFloat(longitude.toString());
     const posts = await client.post.findMany({
+      where: {
+        latitude: {
+          gte: parsedLatitude - 0.01,
+          lte: parsedLatitude + 0.01,
+        },
+        longitude: {
+          gte: parsedLongitude - 0.01,
+          lte: parsedLongitude + 0.01,
+        },
+      },
       include: {
         user: {
           select: {

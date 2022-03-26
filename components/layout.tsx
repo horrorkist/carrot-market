@@ -99,7 +99,7 @@ export default function Layout({
               <span className="text-sm font-semibold">동네생활</span>
             </a>
           </Link>
-          <Link href="/products/chats">
+          <Link href="/chats">
             <a
               className={cls(
                 "flex flex-col items-center justify-center space-y-1",
