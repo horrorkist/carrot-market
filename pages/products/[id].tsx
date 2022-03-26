@@ -4,6 +4,8 @@ import { Product, User } from "@prisma/client";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 import Link from "next/link";
+import useMutation from "../../libs/client/useMutation";
+import { cls } from "../../libs/client/utils";
 
 interface ProductWithUser extends Product {
   user: User;
@@ -13,13 +15,20 @@ interface ItemDetailResponse {
   ok: boolean;
   product: ProductWithUser;
   relatedProducts: Product[];
+  isLiked: Boolean;
 }
 
 const ItemDetail: NextPage = () => {
   const router = useRouter();
-  const { data } = useSWR<ItemDetailResponse>(
+  const { data, mutate } = useSWR<ItemDetailResponse>(
     router.query.id ? `/api/products/${router.query.id}` : null
   );
+  const [toggleFav] = useMutation(`/api/products/${router.query.id}/fav`);
+  const onFavClick = () => {
+    if (!data) return;
+    toggleFav({});
+    mutate({ ...data, isLiked: !data.isLiked }, false);
+  };
   return (
     <Layout canGoBack>
       {data?.product ? (
@@ -47,22 +56,43 @@ const ItemDetail: NextPage = () => {
                 <button className="flex-1 py-1 font-medium text-white bg-orange-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2">
                   Talk to seller
                 </button>
-                <button className="p-1 text-gray-400 border rounded-lg focus:outline-none focus:ring-orange-400 focus:ring-2 focus:border-transparent">
-                  <svg
-                    className="w-6 h-6 "
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                    />
-                  </svg>
+                <button
+                  onClick={onFavClick}
+                  className={cls(
+                    "p-1 border rounded-lg focus:outline-none focus:ring-orange-400 focus:ring-2 focus:border-transparent",
+                    data.isLiked ? "text-red-400" : "text-gray-400"
+                  )}
+                >
+                  {data.isLiked ? (
+                    <svg
+                      className="w-6 h-6"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                        clipRule="evenodd"
+                      ></path>
+                    </svg>
+                  ) : (
+                    <svg
+                      className="w-6 h-6 "
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                      />
+                    </svg>
+                  )}
                 </button>
               </div>
             </div>

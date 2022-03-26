@@ -8,7 +8,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     query: { id },
     session: { user },
   } = req;
-  const product = await client.product.findUnique({
+
+  const post = await client.post.findUnique({
     where: {
       id: +id.toString(),
     },
@@ -20,36 +21,51 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           avatar: true,
         },
       },
-    },
-  });
-  const terms = product?.name.split(" ").map((word) => ({
-    name: {
-      contains: word,
-    },
-  }));
-  const relatedProducts = await client.product.findMany({
-    where: {
-      OR: terms,
-      AND: {
-        id: {
-          not: product?.id,
+      answers: {
+        select: {
+          answer: true,
+          id: true,
+          user: {
+            select: {
+              id: true,
+              name: true,
+              avatar: true,
+            },
+          },
+        },
+      },
+      _count: {
+        select: {
+          answers: true,
+          wonderings: true,
         },
       },
     },
   });
-  const isLiked = Boolean(
-    await client.fav.findFirst({
+
+  if (!post) {
+    return res.status(404).json({
+      ok: false,
+      error: "Post Not Found",
+    });
+  }
+
+  const isWondering = Boolean(
+    await client.wondering.findFirst({
       where: {
-        productId: product?.id,
         userId: user?.id,
+        postId: +id.toString(),
+      },
+      select: {
+        id: true,
       },
     })
   );
+
   return res.json({
     ok: true,
-    product,
-    relatedProducts,
-    isLiked,
+    post,
+    isWondering,
   });
 }
 export default withApiSession(withHandler({ methods: ["GET"], handler }));

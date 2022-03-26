@@ -5,7 +5,15 @@ import { withApiSession } from "../../../libs/server/withApiSession";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "GET") {
-    const products = await client.product.findMany({});
+    const products = await client.product.findMany({
+      include: {
+        _count: {
+          select: {
+            favs: true,
+          },
+        },
+      },
+    });
     return res.json({
       ok: true,
       products,
