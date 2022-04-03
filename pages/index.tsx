@@ -6,7 +6,7 @@ import useUser from "../libs/client/useUser";
 import useSWR from "swr";
 import { Product } from "@prisma/client";
 
-interface ProductWithCounts extends Product {
+export interface ProductWithCounts extends Product {
   _count: {
     [key: string]: number;
   };
@@ -20,7 +20,6 @@ interface ProductsResponse {
 const Home: NextPage = () => {
   const { user, isLoading } = useUser();
   const { data } = useSWR<ProductsResponse>("/api/products");
-  console.log(data);
   return user ? (
     <Layout title="홈" hasTabBar={true}>
       <div className="flex flex-col pb-20 divide-y-2">

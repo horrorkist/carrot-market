@@ -29,7 +29,6 @@ export default function Input({
             id="input"
             className="w-full border-gray-400 rounded-lg shadow-sm appearance-none focus:border-orange-400 focus:ring-orange-400"
             type="email"
-            required
           />
         ) : null}
         {kind === InputKind.phone ? (
@@ -43,7 +42,6 @@ export default function Input({
               id={name}
               className="w-full border-gray-400 rounded-r-lg shadow-sm appearance-none focus:border-orange-400 focus:ring-orange-400"
               type="number"
-              required
             />
           </div>
         ) : null}

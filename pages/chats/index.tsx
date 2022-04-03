@@ -8,7 +8,7 @@ const Chats: NextPage = () => {
       <div className="divide-y-[1px] pb-20">
         {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map(
           (_, i) => (
-            <Link key={i} href={`/products/chats/${i}`}>
+            <Link key={i} href={`/chats/${i}`}>
               <a className="flex items-center px-4 py-3 space-x-3 cursor-pointer">
                 <div className="w-12 h-12 rounded-full bg-slate-300" />
                 <div>

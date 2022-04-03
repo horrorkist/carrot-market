@@ -1,17 +1,31 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import withHandler from "@libs/server/withHandler";
 import client from "@libs/server/client";
-import { withApiSession } from "../../../libs/server/withApiSession";
+import { withApiSession } from "@libs/server/withApiSession";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const profile = await client.user.findUnique({
+  const {
+    session: { user },
+  } = req;
+  const sales = await client.sale.findMany({
     where: {
-      id: req.session.user?.id,
+      userId: user?.id,
+    },
+    include: {
+      product: {
+        include: {
+          _count: {
+            select: {
+              favs: true,
+            },
+          },
+        },
+      },
     },
   });
   return res.json({
     ok: true,
-    profile,
+    sales,
   });
 }
 export default withApiSession(withHandler({ methods: ["GET"], handler }));
